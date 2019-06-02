@@ -1,12 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+	 <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="./css/custom.css">
+  <title>And What?</title>
 </head>
 <body>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Trending Keyword</h1>
+      <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card-columns" id="card-group">
+    </div>
+  </div>
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
+  <script>
+    var url = 'https://newsapi.org/v2/everything?' +
+          'q=Apple&' +
+          'from=2019-06-02&' +
+          'sortBy=popularity&' +
+          'apiKey=c518dd4cadfb4f5292d8aa19acee8fff';
+
+    function gen_html(title, desc, url, img){
+      div_string =
+      `
+          <!-- Content here -->
+          <div class="card" style="width: 18rem;">
+          <a href="` + url + `">
+            <img src="` + img + `" class="card-img-top">
+          </a>
+            <div class="card-body">
+              <h5 class="card-title"><a href="` + url + `">` + title + `</a></h5>
+              <p class="card-text">` + desc + `</p>
+            </div>
+          </div>
+        `;
+        return div_string;
+    }
+
+    var req = new Request(url);
+
+    fetch(req)
+      .then(resp => resp.json())
+      // Make sure to return articles from this function after logging it
+      .then(({articles}) => { return articles; })
+      .then(function(articles){
+        articles.forEach(function(article){
+          $("#card-group").append(gen_html(article.title, article.description, article.url,article.urlToImage));
+        });
+      })
+
+
+  </script>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141197614-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-141197614-1');
+  </script>
 
 </body>
 </html>
